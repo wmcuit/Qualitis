@@ -21,26 +21,29 @@ import com.google.common.io.CharStreams;
 import com.webank.wedatasphere.qualitis.config.AuthFilterUrlConfig;
 import com.webank.wedatasphere.qualitis.dao.UserDao;
 import com.webank.wedatasphere.qualitis.entity.Permission;
-import com.webank.wedatasphere.qualitis.entity.User;
 import com.webank.wedatasphere.qualitis.response.GeneralResponse;
 import com.webank.wedatasphere.qualitis.service.LoginService;
 import com.webank.wedatasphere.qualitis.service.UserService;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.ws.rs.core.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.bind.annotation.RequestMethod;
-
-import javax.management.relation.RoleNotFoundException;
-import javax.servlet.*;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.ws.rs.core.Response;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author howeye
@@ -119,8 +122,10 @@ public class Filter1AuthorizationFilter implements Filter {
             }
         }
         Object user = session.getAttribute("user");
-        LOGGER.info("User: {} succeed to access url: {}", user.toString().replace("\r", "").replace("\n", ""),
-            requestWrapper.getRequestURI().replace("\r", "").replace("\n", ""));
+        if(null != user) {
+            LOGGER.info("User: {} succeed to access url: {}", user.toString().replace("\r", "").replace("\n", ""),
+                requestWrapper.getRequestURI().replace("\r", "").replace("\n", ""));
+        }
         filterChain.doFilter(requestWrapper, response);
     }
 

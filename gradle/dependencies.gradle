@@ -37,7 +37,7 @@ versions += [
     "springRetry":"1.2.2.RELEASE",
     "aspectJ":"1.8.13",
     "quartz":"2.2.1",
-    "dss":"0.9.0.WEBANK",
+    "dss":"0.7.0",
     "fastJson":"1.2.70",
     "log4j":"1.1.3",
     "dom4j":"2.1.1",

@@ -1,8 +1,8 @@
 spring:
   datasource:
-    username: default
-    password: default
-    url: jdbc:mysql://127.0.0.1:3306/qualitis_cdh_dev?createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=utf-8
+    username: qualitis
+    password: qualitis
+    url: jdbc:mysql://192.168.0.5:2038/qualitis?createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=utf-8
     driver-class-name: com.mysql.jdbc.Driver
     type: com.zaxxer.hikari.HikariDataSource
     hikari:
@@ -30,9 +30,9 @@ restTemplate:
 task:
   persistent:
     type: jdbc
-    username: default
-    password: default
-    address: jdbc:mysql://127.0.0.1:3306/qualitis_cdh_dev?createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=utf-8
+    username: qualitis
+    password: qualitis
+    address: jdbc:mysql://192.168.0.5:2038/qualitis?createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=utf-8
     tableName: qualitis_application_task_result
   execute:
     limit_thread: 10

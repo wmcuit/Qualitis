@@ -13,9 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-import org.apache.tools.ant.filters.ReplaceTokens
-
 apply from: "$rootDir/gradle/dependencies.gradle"
 apply plugin: 'java'
 apply plugin: 'application'
@@ -23,8 +20,8 @@ apply plugin: 'idea'
 apply plugin: 'eclipse'
 apply plugin: 'maven'
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
 
 def defaultEncoding = 'UTF-8'
 [compileJava, compileTestJava, javadoc]*.options*.encoding = defaultEncoding
@@ -33,7 +30,13 @@ buildscript {
   repositories {
     mavenLocal()
     maven {
-      url "http://maven.aliyun.com/nexus/content/groups/public/"
+      url "https://maven.aliyun.com/repository/public"
+    }
+    maven {
+      url "https://public.nexus.pentaho.org/repository/proxy-public-3rd-party-release/"
+    }
+    maven {
+      url "https://mvnrepository.com/artifact/com.webank.wedatasphere.dss/dss-appjoint-auth"
     }
   }
 }
@@ -45,14 +48,20 @@ dependencies {
 repositories {
   mavenLocal()
   maven {
-    url "http://maven.aliyun.com/nexus/content/groups/public/"
+    url "https://maven.aliyun.com/repository/public"
+  }
+  maven {
+    url "https://public.nexus.pentaho.org/repository/proxy-public-3rd-party-release/"
+  }
+  maven {
+    url "https://mvnrepository.com/artifact/com.webank.wedatasphere.dss/dss-appjoint-auth"
   }
 }
 
 mainClassName = "com.webank.wedatasphere.qualitis.QualitisServer"
 
 applicationDefaultJvmArgs =
-        ['-Xms256M', '-Xmx2G',
+        ['-Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=n', '-Xms256M', '-Xmx2G',
          '-XX:+UseG1GC', '-XX:MaxGCPauseMillis=20', '-XX:InitiatingHeapOccupancyPercent=50',
          '-Dfile.encoding=UTF-8', "-Djava.library.path=HADOOP_COMMON_LIB_NATIVE_DIR",
          "-Dlog.file=${project.name}-MY_USER-MY_HOSTNAME.log"]
@@ -110,16 +119,22 @@ subprojects {
   repositories {
     mavenLocal()
     maven {
-      url "http://maven.aliyun.com/nexus/content/groups/public/"
+      url "https://maven.aliyun.com/repository/public"
+    }
+    maven {
+      url "https://public.nexus.pentaho.org/repository/proxy-public-3rd-party-release/"
+    }
+    maven {
+      url "https://mvnrepository.com/artifact/com.webank.wedatasphere.dss/dss-appjoint-auth"
     }
 //     mavenCentral()
   }
 
-  processResources {
-    filter ReplaceTokens, tokens: [
-            "version": project.property("version")
-    ]
-  }
+//  processResources {
+//    filter ReplaceTokens, tokens: [
+//            "version": project.property("version")
+//    ]
+//  }
 
   task createPom << {
     pom {
